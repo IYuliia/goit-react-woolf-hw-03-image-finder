@@ -1,0 +1,10 @@
+.loadMore {
+  display: block;
+  margin: 20px auto;
+  background-color: #4a60bd;
+  color: white;
+  font-size: 20px;
+  padding: 10px 20px;
+  border-radius: 5px;
+  border: none;
+}

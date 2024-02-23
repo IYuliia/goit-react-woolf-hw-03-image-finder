@@ -1,0 +1,10 @@
+.photoCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.photoCardImage {
+  width: 200px;
+  height: auto;
+}
