@@ -14,6 +14,7 @@ class App extends Component {
     images: [],
     currentPage: 1,
     query: '',
+    hasMoreImages: true,
   };
 
   handleImageClick = imageUrl => {
@@ -21,15 +22,26 @@ class App extends Component {
   };
 
   handleLoadMore = async () => {
-    const { currentPage, images, query } = this.state;
+    const { currentPage, query, hasMoreImages } = this.state;
+    if (!hasMoreImages) return;
+
     const nextPage = currentPage + 1;
     try {
       this.setState({ isLoading: true });
       const data = await getAllImagesApi(query, nextPage);
-      this.setState({
-        images: [...images, ...data.hits],
-        currentPage: nextPage,
-      });
+      if (data.hits.length < 12) {
+        this.setState({
+          images: [...this.state.images, ...data.hits],
+          hasMoreImages: false,
+          isLoading: false,
+        });
+      } else {
+        this.setState({
+          images: [...this.state.images, ...data.hits],
+          currentPage: nextPage,
+          isLoading: false,
+        });
+      }
     } catch (error) {
       console.error('Error fetching images:', error);
     } finally {
@@ -42,6 +54,7 @@ class App extends Component {
       query: query,
       images: [],
       currentPage: 1,
+      hasMoreImages: true,
     });
 
     try {
@@ -53,7 +66,9 @@ class App extends Component {
   };
 
   render() {
-    const { modalImageUrl, isModalOpen, isLoading, images } = this.state;
+    const { modalImageUrl, isModalOpen, isLoading, images, hasMoreImages } =
+      this.state;
+    const shouldLoadMore = images.length >= 12 && hasMoreImages;
     return (
       <div
         style={{
@@ -68,10 +83,13 @@ class App extends Component {
         <Searchbar onSubmit={this.handleSearchSubmit} />
         <ImageGallery images={images} onImageClick={this.handleImageClick} />
         {isLoading && <Loader />}
-        {images.length > 0 && <Button onLoadMore={this.handleLoadMore} />}
+        {shouldLoadMore && (
+          <Button onClick={this.handleLoadMore} query={this.state.query} />
+        )}
         {isModalOpen && (
           <Modal
             imageUrl={modalImageUrl}
+            isOpen={isModalOpen}
             onClose={() => this.setState({ isModalOpen: false })}
           />
         )}

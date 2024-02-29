@@ -1,4 +1,5 @@
-import { Component } from 'react';
+import React, { Component } from 'react';
+import styles from './Modal.module.css';
 
 class Modal extends Component {
   componentDidMount() {
@@ -26,11 +27,11 @@ class Modal extends Component {
 
     return (
       <div
-        className={`overlay ${isOpen ? 'open' : ''}`}
+        className={`${styles.overlay} ${isOpen ? styles.open : ''}`}
         onClick={this.handleClickOutside}
       >
-        <div className="modal">
-          <img src={imageUrl} alt="" />
+        <div className={styles.modalContent}>
+          <img className={styles.modalImage} src={imageUrl} alt="" />
         </div>
       </div>
     );

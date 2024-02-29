@@ -1,12 +1,15 @@
 import React from 'react';
 import styles from './Button.module.css';
 
-const Button = ({ onClick, disabled }) => {
+const Button = ({ onClick, disabled, query }) => {
+  const handleClick = () => {
+    onClick(query);
+  };
   return (
     <button
       type="button"
       className={styles.loadMore}
-      onClick={onClick}
+      onClick={handleClick}
       disabled={disabled}
     >
       Load more
