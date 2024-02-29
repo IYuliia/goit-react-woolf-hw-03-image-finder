@@ -17,6 +17,15 @@ class App extends Component {
     hasMoreImages: true,
   };
 
+  async componentDidUpdate(prevProps, prevState) {
+    const { query: prevQuery } = prevState;
+    const { query } = this.state;
+
+    if (query !== prevQuery) {
+      await this.handleSearchSubmit(query);
+    }
+  }
+
   handleImageClick = imageUrl => {
     this.setState({ modalImageUrl: imageUrl, isModalOpen: true });
   };
@@ -33,13 +42,11 @@ class App extends Component {
         this.setState({
           images: [...this.state.images, ...data.hits],
           hasMoreImages: false,
-          isLoading: false,
         });
       } else {
         this.setState({
           images: [...this.state.images, ...data.hits],
           currentPage: nextPage,
-          isLoading: false,
         });
       }
     } catch (error) {
@@ -73,9 +80,6 @@ class App extends Component {
       <div
         style={{
           height: '100vh',
-          // display: 'flex',
-          // justifyContent: 'center',
-          // alignItems: 'center',
           fontSize: 40,
           color: '#010101',
         }}
