@@ -40,7 +40,7 @@ class App extends Component {
   };
 
   handleLoadMore = () => {
-    const { currentPage, hasMoreImages } = this.state;
+    const { hasMoreImages } = this.state;
     if (!hasMoreImages) return;
 
     this.setState(prevState => ({
