@@ -48,12 +48,12 @@ class App extends Component {
     }));
   };
 
-  handleSearchSubmit = async query => {
+  handleSearchSubmit = query => {
     this.setState({
       query: query,
       images: [],
       currentPage: 1,
-      hasMoreImages: true,
+      hasMoreImages: false,
     });
   };
 
